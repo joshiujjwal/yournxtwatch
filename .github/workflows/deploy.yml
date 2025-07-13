@@ -104,6 +104,7 @@ jobs:
         npm run build:server
 
     - name: Deploy to Railway
-      run: npx railway up --service=server --ci
+      run: npx railway up --ci --project ${{ secrets.RAILWAY_PROJECT_ID }}
+      working-directory: ./server
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 
