@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '../contexts/GameContext';
-import { DEFAULT_GAME_CONFIG } from '../../../shared/src/index.ts';
 import { ArrowLeft, Users, Play, CheckCircle, XCircle, User, Film } from 'lucide-react';
+
+// Define genres directly to avoid import issues
+const GENRES = [
+  'Action', 'Adventure', 'Animation', 'Comedy', 'Crime',
+  'Documentary', 'Drama', 'Family', 'Fantasy', 'History',
+  'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction',
+  'TV Movie', 'Thriller', 'War', 'Western'
+];
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
@@ -166,7 +173,7 @@ const GamePage: React.FC = () => {
               </p>
               
               <div className="genre-grid">
-                {DEFAULT_GAME_CONFIG.genres.map(genre => (
+                {GENRES.map((genre: string) => (
                   <button
                     key={genre}
                     onClick={() => handleGenreToggle(genre)}
