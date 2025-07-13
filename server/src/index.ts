@@ -23,15 +23,43 @@ console.log('🔧 HTTP server created');
 
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    methods: ["GET", "POST"]
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "https://yournxtwatch.vercel.app",
+        "https://yournxtwatch.vercel.app/"
+      ];
+      
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 console.log('🔧 Socket.IO server initialized');
 
-// Middleware
-app.use(cors());
+// Middleware - Update this to match Socket.IO CORS
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://yournxtwatch.vercel.app",
+      "https://yournxtwatch.vercel.app/"
+    ];
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 console.log('🔧 Middleware configured');
@@ -227,7 +255,6 @@ try {
   httpServer.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📺 YourNxtWatch multiplayer movie game server ready!`);
-    console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
   });
 } catch (error) {
   console.error('❌ Failed to start server:', error);
