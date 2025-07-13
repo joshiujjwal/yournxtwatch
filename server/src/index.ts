@@ -3,8 +3,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { GameManager } from './services/GameManager';
-import { TMDBService } from './services/TMDBService';
+import { GameManager } from './services/GameManager.js';
+import { TMDBService } from './services/TMDBService.js';
 import { ClientToServerEvents, ServerToClientEvents, Game, Player } from '@yournxtwatch/shared';
 
 console.log('🚀 Starting YourNxtWatch server...');

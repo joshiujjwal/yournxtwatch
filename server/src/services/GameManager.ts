@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Game, Player, Movie, TopPick, MovieSwipe, GameStatus, DEFAULT_GAME_CONFIG } from '@yournxtwatch/shared';
-import { TMDBService } from './TMDBService';
+import { TMDBService } from './TMDBService.js';
 
 export class GameManager {
   private games: Map<string, Game> = new Map();
