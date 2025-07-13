@@ -1,0 +1,35 @@
+{
+  "name": "yournxtwatch",
+  "version": "1.0.0",
+  "description": "A multiplayer movie game where players swipe through movies and find their top picks",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "npm run build:shared && npm run build:server && npm run build:client",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "start": "cd server && npm start",
+    "test": "echo \"No tests specified\"",
+    "lint": "echo \"No linting configured\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "movie",
+    "game",
+    "multiplayer",
+    "swipe",
+    "tmdb",
+    "socket.io"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@railway/cli": "^4.5.4"
+  }
+}
