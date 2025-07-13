@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { Game, Player, TopPick, ClientToServerEvents, ServerToClientEvents } from '@yournxtwatch/shared';
+import { Game, Player, TopPick, ClientToServerEvents, ServerToClientEvents } from '../../../shared/src/index.ts';
 
 interface GameContextType {
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
