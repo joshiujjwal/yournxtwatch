@@ -18,7 +18,8 @@
     "build:shared": "cd shared && npm run build",
     "start": "cd server && npm start",
     "test": "echo \"No tests specified\"",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "railway:build": "npm ci && npm run build:shared && cd server && tsc"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

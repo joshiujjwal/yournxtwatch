@@ -104,6 +104,5 @@ jobs:
 
     - name: Deploy to Railway
       run: npx railway up --ci --service=yournextwatch-server
-      working-directory: ./server
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 

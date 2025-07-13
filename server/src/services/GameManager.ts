@@ -104,7 +104,7 @@ export class GameManager {
       return false;
     }
 
-    const player = game.players.find(p => p.id === playerId);
+    const player = game.players.find((p: Player) => p.id === playerId);
     if (!player) {
       console.log('Player not found for setting genres');
       return false;
@@ -120,7 +120,7 @@ export class GameManager {
     const game = this.games.get(gameId);
     if (!game) return false;
 
-    const player = game.players.find(p => p.id === playerId);
+    const player = game.players.find((p: Player) => p.id === playerId);
     if (!player) return false;
 
     const swipe: MovieSwipe = {
@@ -144,7 +144,7 @@ export class GameManager {
     const game = this.games.get(gameId);
     if (!game) return;
 
-    game.players = game.players.filter(p => p.id !== playerId);
+    game.players = game.players.filter((p: Player) => p.id !== playerId);
 
     // If no players left, remove the game
     if (game.players.length === 0) {
@@ -157,7 +157,7 @@ export class GameManager {
   }
 
   findGameByRoomCode(roomCode: string): Game | undefined {
-    return Array.from(this.games.values()).find(game => game.roomCode === roomCode);
+    return Array.from(this.games.values()).find((game: Game) => game.roomCode === roomCode);
   }
 
   private generateRoomCode(): string {
@@ -172,15 +172,15 @@ export class GameManager {
   private async fetchMoviesForGame(game: Game): Promise<Movie[]> {
     // Get all unique genres from all players
     const allGenres = new Set<string>();
-    game.players.forEach(player => {
-      player.genres.forEach(genre => allGenres.add(genre));
+    game.players.forEach((player: Player) => {
+      player.genres.forEach((genre: string) => allGenres.add(genre));
     });
 
     console.log('Fetching movies for game:', {
       gameId: game.id,
       playerCount: game.players.length,
       allGenres: Array.from(allGenres),
-      playersWithGenres: game.players.map(p => ({ name: p.name, genres: p.genres }))
+      playersWithGenres: game.players.map((p: Player) => ({ name: p.name, genres: p.genres }))
     });
 
     // If no genres selected, use default genres
@@ -201,19 +201,18 @@ export class GameManager {
       movies.push(...genreMovies);
     }
 
-    const shuffledMovies = this.shuffleArray(movies).slice(0, DEFAULT_GAME_CONFIG.moviesPerGame);
-    console.log(`Fetched ${shuffledMovies.length} movies for game`);
-    
-    return shuffledMovies;
+    // Shuffle and limit to the desired number of movies
+    const shuffledMovies = this.shuffleArray(movies);
+    return shuffledMovies.slice(0, DEFAULT_GAME_CONFIG.moviesPerGame);
   }
 
   private checkGameEnd(game: Game): void {
-    const allFinished = game.players.every(player => player.hasFinished);
-    
+    const allFinished = game.players.every((player: Player) => player.hasFinished);
     if (allFinished) {
       game.status = 'finished';
       game.endedAt = Date.now();
       game.topPicks = this.calculateTopPicks(game);
+      console.log('Game finished, calculated top picks:', game.topPicks?.length || 0);
     }
   }
 
@@ -221,8 +220,8 @@ export class GameManager {
     const movieScores = new Map<number, { score: number; players: string[] }>();
 
     // Calculate scores for each movie
-    game.players.forEach(player => {
-      player.swipes.forEach(swipe => {
+    game.players.forEach((player: Player) => {
+      player.swipes.forEach((swipe: MovieSwipe) => {
         if (swipe.liked) {
           const current = movieScores.get(swipe.movieId) || { score: 0, players: [] };
           current.score += 1;
@@ -235,20 +234,14 @@ export class GameManager {
     // Convert to TopPick array and sort by score
     const topPicks: TopPick[] = Array.from(movieScores.entries())
       .map(([movieId, { score, players }]) => {
-        const movie = game.movies.find(m => m.id === movieId);
+        const movie = game.movies.find((m: Movie) => m.id === movieId);
         if (!movie) return null;
-        
-        return {
-          movie,
-          score,
-          players
-        };
+        return { movie, score, players };
       })
       .filter((pick): pick is TopPick => pick !== null)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3);
+      .sort((a, b) => b.score - a.score);
 
-    return topPicks;
+    return topPicks.slice(0, 10); // Return top 10 picks
   }
 
   private shuffleArray<T>(array: T[]): T[] {

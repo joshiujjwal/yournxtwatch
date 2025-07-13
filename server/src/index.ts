@@ -5,7 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { GameManager } from './services/GameManager';
 import { TMDBService } from './services/TMDBService';
-import { ClientToServerEvents, ServerToClientEvents } from '@yournxtwatch/shared';
+import { ClientToServerEvents, ServerToClientEvents, Game, Player } from '@yournxtwatch/shared';
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
   console.log(`Player connected: ${socket.id}`);
 
   // Create a new game
-  socket.on('game:create', async (playerName, callback) => {
+  socket.on('game:create', async (playerName: string, callback: (game: Game) => void) => {
     try {
       const game = await gameManager.createGame(playerName, socket.id);
       socket.join(game.roomCode);
@@ -45,12 +45,12 @@ io.on('connection', (socket) => {
   });
 
   // Join an existing game
-  socket.on('game:join', async (roomCode, playerName, callback) => {
+  socket.on('game:join', async (roomCode: string, playerName: string, callback: (game: Game) => void) => {
     try {
       const game = await gameManager.joinGame(roomCode, playerName, socket.id);
       socket.join(roomCode);
       socket.data.gameId = game.id;
-      socket.data.playerId = game.players.find(p => p.name === playerName)?.id;
+      socket.data.playerId = game.players.find((p: Player) => p.name === playerName)?.id;
       
       // Notify other players
       socket.to(roomCode).emit('player:joined', game.players[game.players.length - 1]);
@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
   });
 
   // Start the game
-  socket.on('game:start', async (callback) => {
+  socket.on('game:start', async (callback: (success: boolean) => void) => {
     try {
       const gameId = socket.data.gameId;
       if (!gameId) {
@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
   });
 
   // Player ready with genres
-  socket.on('player:genres', async (genres, callback) => {
+  socket.on('player:genres', async (genres: string[], callback: (success: boolean) => void) => {
     try {
       const gameId = socket.data.gameId;
       const playerId = socket.data.playerId;
@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
   });
 
   // Player swipes on a movie
-  socket.on('player:swipe', async (movieId, liked, callback) => {
+  socket.on('player:swipe', async (movieId: number, liked: boolean, callback: (success: boolean) => void) => {
     try {
       const gameId = socket.data.gameId;
       const playerId = socket.data.playerId;
@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
           io.to(game.roomCode).emit('game:updated', game);
           
           // Check if this was the last player to finish
-          const allFinished = game.players.every(player => player.hasFinished);
+          const allFinished = game.players.every((player: Player) => player.hasFinished);
           if (allFinished) {
             console.log('All players finished, ending game');
             io.to(game.roomCode).emit('game:finished', game, game.topPicks || []);
