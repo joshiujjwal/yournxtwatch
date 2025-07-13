@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "A multiplayer movie game where players swipe through movies and find their top picks",
   "private": true,
+  "workspaces": [
+    "shared",
+    "client", 
+    "server"
+  ],
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "cd client && npm run dev",
