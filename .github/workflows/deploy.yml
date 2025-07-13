@@ -103,7 +103,7 @@ jobs:
         npm run build:server
 
     - name: Deploy to Railway
-      run: npx railway up --ci
+      run: npx railway up --ci --service=yournextwatch-server
       working-directory: ./server
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 

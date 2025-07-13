@@ -238,6 +238,7 @@ railway login
    ```bash
    cd server
    railway init
+   railway service
    ```
 
 ## 🚀 Step 2: Deploy Backend (Railway)
