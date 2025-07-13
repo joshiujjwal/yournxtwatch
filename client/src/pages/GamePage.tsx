@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '../contexts/GameContext';
-import { DEFAULT_GAME_CONFIG } from '@yournxtwatch/shared';
+import { DEFAULT_GAME_CONFIG } from '../../../shared/src';
 import { ArrowLeft, Users, Play, CheckCircle, XCircle, User, Film } from 'lucide-react';
 
 const GamePage: React.FC = () => {
