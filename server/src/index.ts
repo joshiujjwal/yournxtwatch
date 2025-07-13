@@ -9,12 +9,18 @@ import { ClientToServerEvents, ServerToClientEvents, Game, Player } from '@yourn
 
 console.log('🚀 Starting YourNxtWatch server...');
 
-dotenv.config();
-
-console.log('📦 Environment loaded');
+try {
+  dotenv.config();
+  console.log('📦 Environment loaded');
+} catch (error) {
+  console.error('❌ Failed to load environment:', error);
+}
 
 const app = express();
 const httpServer = createServer(app);
+
+console.log('🔧 HTTP server created');
+
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
   cors: {
     origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -22,17 +28,26 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
   }
 });
 
-console.log('🔧 Services initialized');
+console.log('🔧 Socket.IO server initialized');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Services
-const gameManager = new GameManager();
-const tmdbService = new TMDBService();
+console.log('🔧 Middleware configured');
 
-console.log('🎮 Game services initialized');
+// Services
+let gameManager: GameManager;
+let tmdbService: TMDBService;
+
+try {
+  gameManager = new GameManager();
+  tmdbService = new TMDBService();
+  console.log('🎮 Game services initialized');
+} catch (error) {
+  console.error('❌ Failed to initialize game services:', error);
+  process.exit(1);
+}
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -184,7 +199,12 @@ io.on('connection', (socket) => {
 // Health check endpoint
 app.get('/health', (req, res) => {
   console.log('🏥 Health check requested');
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage()
+  });
 });
 
 // Get movie details endpoint
@@ -201,9 +221,15 @@ app.get('/api/movies/:id', async (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 console.log(`🌐 Starting server on port ${PORT}`);
+console.log(`🏥 Health check will be available at http://localhost:${PORT}/health`);
 
-httpServer.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📺 YourNxtWatch multiplayer movie game server ready!`);
-  console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
-}); 
+try {
+  httpServer.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📺 YourNxtWatch multiplayer movie game server ready!`);
+    console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
+  });
+} catch (error) {
+  console.error('❌ Failed to start server:', error);
+  process.exit(1);
+} 
