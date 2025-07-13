@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '../contexts/GameContext';
-import { Play, Users, Film, Zap, CheckCircle } from 'lucide-react';
+import { Play, Users, Film, Zap } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();

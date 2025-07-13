@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGame } from '../contexts/GameContext';
 import { DEFAULT_GAME_CONFIG } from '@yournxtwatch/shared';
-import { ArrowLeft, Users, Play, CheckCircle, XCircle, User, Clock, Film } from 'lucide-react';
+import { ArrowLeft, Users, Play, CheckCircle, XCircle, User, Film } from 'lucide-react';
 
 const GamePage: React.FC = () => {
-  const { roomCode } = useParams<{ roomCode: string }>();
   const navigate = useNavigate();
   const { game, currentPlayer, setPlayerGenres, swipeMovie, startGame, error, clearError } = useGame();
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
@@ -65,7 +64,6 @@ const GamePage: React.FC = () => {
   const hasFinishedSwiping = currentMovieIndex >= (game?.movies.length || 0);
   // Check if current player has genres set in the game state
   const currentPlayerInGame = game?.players.find(p => p.id === currentPlayer?.id);
-  const isHost = currentPlayer?.id === game?.players[0]?.id;
   const needsGenreSelection = !currentPlayerInGame?.genres || currentPlayerInGame.genres.length === 0;
   const canStartGame = game && game.status === 'waiting' && game.players.length > 0;
 

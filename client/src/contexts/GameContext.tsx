@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { Game, Player, Movie, TopPick, ClientToServerEvents, ServerToClientEvents } from '@yournxtwatch/shared';
+import { Game, Player, TopPick, ClientToServerEvents, ServerToClientEvents } from '@yournxtwatch/shared';
 
 interface GameContextType {
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
@@ -31,7 +31,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const [socket, setSocket] = useState<Socket<ServerToClientEvents, ServerToClientEvents> | null>(null);
+  const [socket, setSocket] = useState<Socket<ServerToClientEvents, ClientToServerEvents> | null>(null);
   const [game, setGame] = useState<Game | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
   const [isConnected, setIsConnected] = useState(false);
