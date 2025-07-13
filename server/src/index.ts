@@ -7,7 +7,11 @@ import { GameManager } from './services/GameManager';
 import { TMDBService } from './services/TMDBService';
 import { ClientToServerEvents, ServerToClientEvents, Game, Player } from '@yournxtwatch/shared';
 
+console.log('🚀 Starting YourNxtWatch server...');
+
 dotenv.config();
+
+console.log('📦 Environment loaded');
 
 const app = express();
 const httpServer = createServer(app);
@@ -18,6 +22,8 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
   }
 });
 
+console.log('🔧 Services initialized');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -25,6 +31,8 @@ app.use(express.json());
 // Services
 const gameManager = new GameManager();
 const tmdbService = new TMDBService();
+
+console.log('🎮 Game services initialized');
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -175,6 +183,7 @@ io.on('connection', (socket) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
+  console.log('🏥 Health check requested');
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -191,7 +200,10 @@ app.get('/api/movies/:id', async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
+console.log(`🌐 Starting server on port ${PORT}`);
+
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📺 YourNxtWatch multiplayer movie game server ready!`);
+  console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
 }); 
