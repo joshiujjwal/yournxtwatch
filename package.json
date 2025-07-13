@@ -12,14 +12,13 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
-    "build": "npm run build:shared && npm run build:server && npm run build:client",
+    "build": "npm run build:shared && npm run build:server",
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
     "build:shared": "cd shared && npm run build",
     "start": "cd server && npm start",
     "test": "echo \"No tests specified\"",
-    "lint": "echo \"No linting configured\"",
-    "railway:build": "npm ci && npm run build:shared && cd server && tsc"
+    "lint": "echo \"No linting configured\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
