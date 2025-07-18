@@ -255,8 +255,10 @@ const HomePage: React.FC = () => {
             </div>
           </div>
           <p>No login required • Mobile friendly • Instant results</p>
+          <p>Idea Credits: <a href="#" target="_blank" rel="noopener noreferrer">K G</a></p>
         </div>
       </div>
+      
     </div>
   );
 };
