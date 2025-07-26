@@ -11,16 +11,18 @@
     "build:prod": "vite build --mode production"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@yournxtwatch/shared": "file:../shared",
+    "framer-motion": "^10.16.16",
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "socket.io-client": "^4.7.4",
     "react-router-dom": "^6.20.1",
-    "lucide-react": "^0.294.0",
-    "framer-motion": "^10.16.16",
-    "vite": "^5.0.8",
-    "@vitejs/plugin-react": "^4.2.1",
+    "socket.io-client": "^4.7.4",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.3.3",
-    "@yournxtwatch/shared": "file:../shared"
+    "vite": "^5.0.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -31,4 +33,4 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5"
   }
-} 
+}

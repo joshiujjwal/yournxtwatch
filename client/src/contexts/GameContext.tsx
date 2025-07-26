@@ -8,7 +8,7 @@ interface GameContextType {
   currentPlayer: Player | null;
   isConnected: boolean;
   error: string | null;
-  createGame: (playerName: string) => Promise<void>;
+  createGame: (playerName: string, onSuccess?: (roomCode: string) => void) => Promise<void>;
   joinGame: (roomCode: string, playerName: string) => Promise<void>;
   startGame: () => Promise<void>;
   setPlayerGenres: (genres: string[]) => Promise<void>;
@@ -82,12 +82,6 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       setGame({ ...gameData, topPicks });
     });
 
-    newSocket.on('player:joined', (player: Player) => {
-      if (game) {
-        setGame({ ...game, players: [...game.players, player] });
-      }
-    });
-
     newSocket.on('player:left', (playerId: string) => {
       if (game) {
         setGame({
@@ -126,11 +120,14 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const createGame = async (playerName: string) => {
+  const createGame = async (playerName: string, onSuccess?: (roomCode: string) => void) => {
     if (!socket) return;
     socket.emit('game:create', playerName, (gameData: Game) => {
       setGame(gameData);
       setCurrentPlayer(gameData.players[0]);
+      if (onSuccess) {
+        onSuccess(gameData.roomCode);
+      }
     });
   };
 

@@ -1,28 +1,206 @@
-.App {
-  min-height: 100vh;
+/* HomePage specific styles - keeping separate from main index.css */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Lilita+One&display=swap');
+
+/* These styles are only for the HomePage component */
+.homepage-container {
+  font-family: 'Lilita One', cursive;
+  background-color: #2C2C54;
+  color: #FFFFFF;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.homepage-title {
+  font-family: 'Bangers', cursive;
+  font-size: 8rem;
+  color: #F5A623;
+  text-shadow: 4px 4px 0 #FF6B6B;
+}
+
+.homepage-subtitle {
+  font-family: 'Lilita One', cursive;
+  font-size: 2rem;
+  color: #E0E0E0;
+}
+
+.homepage-header-text {
+  font-family: 'Lilita One', cursive;
+}
+
+.homepage-button {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  transform: transition-transform duration-200;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 4px solid #FFFFFF;
+  cursor: pointer;
+  font-family: 'Lilita One', cursive;
+}
+
+.homepage-button:hover {
+  transform: scale(1.05);
+}
+
+.homepage-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.homepage-button-primary {
+  background-color: #4A90E2;
+  color: #FFFFFF;
+}
+
+.homepage-button-secondary {
+  background-color: #F5A623;
+  color: #2C2C54;
+}
+
+.homepage-input {
+  width: 100%;
+  max-width: 28rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  background-color: #2C2C54;
+  color: #FFFFFF;
+  border: 4px solid #FFFFFF;
+  text-align: center;
+  font-family: 'Lilita One', cursive;
+  transition: all 0.2s ease;
+}
+
+.homepage-input::placeholder {
+  color: #E0E0E0;
+  opacity: 0.5;
+}
+
+.homepage-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #4A90E2;
+  border-color: #4A90E2;
+}
+
+.homepage-input-secondary:focus {
+  box-shadow: 0 0 0 4px #F5A623;
+  border-color: #F5A623;
+}
+
+.homepage-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.75rem;
+}
+
+/* Genre Selection specific styles */
+.genre-card {
+  background-color: rgba(139, 69, 19, 0.5);
+  border: 2px solid #ec4899;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 80px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
 }
 
-/* Page transitions */
-.page-enter {
-  opacity: 0;
-  transform: translateY(20px);
+.genre-card:hover {
+  transform: scale(1.05);
+  border-color: #fbbf24;
+  background-color: rgba(139, 69, 19, 0.7);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
 }
 
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+.genre-card.selected {
+  border-color: #fbbf24;
+  background-color: rgba(139, 69, 19, 0.8);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
 }
 
-.page-exit {
-  opacity: 1;
-  transform: translateY(0);
+.genre-text {
+  text-align: center;
+  line-height: 1.2;
 }
 
-.page-exit-active {
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 300ms, transform 300ms;
+.checkmark {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #fbbf24;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive design for genre cards */
+@media (max-width: 768px) {
+  .genre-card {
+    font-size: 1rem;
+    padding: 1rem;
+    min-height: 100px;
+  }
+  
+  .checkmark {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .checkmark svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}
+
+/* Responsive design for homepage */
+@media (max-width: 768px) {
+  .homepage-title {
+    font-size: 4rem;
+  }
+  
+  .homepage-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .homepage-button {
+    font-size: 1.5rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .homepage-input {
+    font-size: 1.5rem;
+    padding: 0.75rem 1.5rem;
+  }
 } 
